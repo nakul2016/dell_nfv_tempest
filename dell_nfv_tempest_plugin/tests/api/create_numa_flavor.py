@@ -20,7 +20,6 @@ class CreateNumaFlavor(base.BaseDellNFVTempestTestCase):
                                        uri=self.os_auth_url, cli_dir='/bin/')
 
     
-    @test.attr(type="dell_nfv")
     def create_numa_flavor(self, flavor_name=""):
 	if not flavor_name:
 	    flavor_name = 'NumaFlavor' + str(self..getUniqueInteger()) + str(self.get_random_integer())

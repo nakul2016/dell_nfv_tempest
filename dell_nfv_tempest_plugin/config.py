@@ -34,4 +34,4 @@ dell_nfv_group = cfg.OptGroup(
 DellNFVGroup = [
     cfg.StrOpt("my_custom_variable", default="custom value",
                help="My custom variable.")
-
+]

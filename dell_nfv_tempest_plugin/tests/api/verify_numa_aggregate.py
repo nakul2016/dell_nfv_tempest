@@ -8,7 +8,7 @@ from oslo_log import log as logging
 LOG = logging.getLogger(__name__, "dell-nfv-tempest-plugin")
 
 
-class VerifyNumaAggregate(base.BaseDellNFVTempestTestCase):
+class VerifyNumaAggregate(base.BaseDellNFVTempestTestCase)
 
     @classmethod
     def resource_setup(self):

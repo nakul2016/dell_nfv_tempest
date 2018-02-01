@@ -1,6 +1,8 @@
 from oslo_log import log as logging
 from tempest import config
 from tempest import test
+import random
+
 
 CONF = config.CONF
 LOG = logging.getLogger(__name__)

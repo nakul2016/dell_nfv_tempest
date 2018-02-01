@@ -16,7 +16,7 @@ class TestNumaFlavorCreation(base.BaseDellNFVTempestTestCase):
 	self.os_user_name = os.environ['OS_USERNAME']
         self.os_password = os.environ['OS_PASSWORD']
         self.os_auth_url = os.environ['OS_AUTH_URL']
-        self.os_tenant_name = os.environ['OS_TENANT_NAME']
+        self.os_tenant_name = os.environ['OS_USERNAME']
         self.cli_dir = '/bin'
         self.cliclient = cli.CLIClient(username=self.os_user_name, password=self.os_password, tenant_name=self.os_tenant_name,
                                        uri=self.os_auth_url, cli_dir='/bin/')
@@ -32,7 +32,7 @@ class TestNumaFlavorCreation(base.BaseDellNFVTempestTestCase):
 	LOG.info("create_flavor() raw output %s", raw_output)
 	new_flavor = output_parser.listing(raw_output)
         self.assertNotEmpty(new_flavor)
-	add_metadata_to_flavor()
+	self.add_metadata_to_flavor()
 	
 	# Delete the Flavor
         self.delete_flavor()

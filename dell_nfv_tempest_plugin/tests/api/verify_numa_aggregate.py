@@ -12,7 +12,6 @@ class VerifyNumaAggregate(base.BaseDellNFVTempestTestCase):
 
     @classmethod
     def resource_setup(self):
-	
 	super(VerifyNumaAggregate, self).resource_setup()
 	self.os_user_name = os.environ['OS_USERNAME']
         self.os_password = os.environ['OS_PASSWORD']
@@ -21,23 +20,26 @@ class VerifyNumaAggregate(base.BaseDellNFVTempestTestCase):
         self.cli_dir = '/bin'
         self.cliclient = cli.CLIClient(username=self.os_user_name, password=self.os_password, tenant_name=self.os_tenant_name,
                                        uri=self.os_auth_url, cli_dir='/bin/')
-
+	self.aggr_names = None
+	self.aggr_name = None
+	self.metadata_tag = None
 
     @test.attr(type='dell_nfv')
     def verify_numa_aggregate(self):
 	LOG.info("BEGIN: verify_numa_aggregate")
 	raw_output = self.cliclient.openstack(action='aggregate list')
 	all_aggr = output_parser.listing(raw_output)
-	aggr_names = [x['Name'] for x in all_aggr]
-	LOG.info("Aggregtes present in OverCloud -", ', '.join(aggr_names)) 
-	for aggr_name in aggr_names:
-	    self.get_hosts_and_metadata_in_aggregate(aggr_name)
+	self.aggr_names = [x['Name'] for x in all_aggr]
+	LOG.info("Aggregtes present in OverCloud -", ', '.join(self.aggr_names)) 
+	for self.aggr_name in self.aggr_names:
+	    self.get_hosts_and_metadata_in_aggregate()
+	LOG.info("END: verify_numa_aggregate")
 
    
-    def get_hosts_and_metadata_in_aggregate(self, aggr_name):
-	raw_output = self.cliclient.openstack(action='aggregate show', params=aggr_name)
+    def get_hosts_and_metadata_in_aggregate(self):
+	raw_output = self.cliclient.openstack(action='aggregate show', params=self.aggr_name)
 	aggr_details = output_parser.listing(raw_output)
 	hosts = [x['Value'] for x in aggr_details if str(x['Field']).lower() == 'hosts'][0].strip("[]").replace("u'", "").replace("'","")
-	LOG.info("Hosts present in host aggregate - " + aggr_name + " are " + hosts)
-	metadata_tag = [x['Value'] for x in aggr_details if str(x['Field']).lower() == 'properties'][0]
-	LOG.info("Metadata tag present in host aggregate - " + aggr_name + " are " + metadata_tag)
+	LOG.info("Hosts present in host aggregate - " + self.aggr_name + " are " + hosts)
+	self.metadata_tag = [x['Value'] for x in aggr_details if str(x['Field']).lower() == 'properties'][0]
+	LOG.info("Metadata tag present in host aggregate - " + self.aggr_name + " are " + self.metadata_tag)

@@ -16,22 +16,27 @@
 from oslo_config import cfg
 from tempest import config
 
-service_available_group = cfg.OptGroup(
-    name="service_available",
-    title="Available OpenStack Services"
+numa_group = cfg.OptGroup(
+    name="numa",
+    title="NUMA Service Options"
 )
 
-ServiceAvailableGroup = [
-    cfg.BoolOpt("dell_nfv_tempest_plugin", default=True,
-                help="Whether or not Dell NFV is expected to be available")
+NumaGroup = [
+    cfg.StrOpt("aggregate_metadata", 
+                help="Metadata for Numa Aggregate to be used in tests. " 
+		     "This is a required option"),
+    cfg.ListOpt("flavor_metadata",
+		help="Metadata for Numa Flavor to be used in tests. "
+		     "This is a required option")
 ]
 
-dell_nfv_group = cfg.OptGroup(
-    name="dell_nfv",
-    title="Dell NFV Test Variables"
+hugepage_group = cfg.OptGroup(
+    name="hugepage",
+    title="Hugepage Service Options"
 )
 
-DellNFVGroup = [
-    cfg.StrOpt("my_custom_variable", default="custom value",
-               help="My custom variable.")
+HugepageGroup = [
+    cfg.StrOpt("aggregate_metadata",
+               help="Metadata for Hugepage Aggregate to be used in tests. "
+		     "This is a required option")
 ]

@@ -33,14 +33,15 @@ class DellNFVTempestPlugin(plugins.TempestPlugin):
     def register_opts(self, conf):
         config.register_opt_group(
             conf,
-            project_config.service_available_group,
-            project_config.ServiceAvailableGroup)
+            project_config.numa_group,
+            project_config.NumaGroup)
         config.register_opt_group(
             conf,
-            project_config.dell_nfv_group,
-            project_config.DellNFVGroup)
+            project_config.hugepage_group,
+            project_config.HugepageGroup)
 
     def get_opt_lists(self):
         return [(
-            project_config.dell_nfv_group.name,
-            project_config.DellNFVGroup)]
+            project_config.hugepage_group.name,
+            project_config.HugepageGroup)]
+

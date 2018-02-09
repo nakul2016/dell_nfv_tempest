@@ -1,13 +1,13 @@
 from dell_nfv_tempest_plugin.tests.api import base, api
 from tempest import test
+from tempest import config
 import tempest.lib.cli.output_parser as output_parser
 import os
 from oslo_log import log as logging
 
+CONF = config.CONF
 LOG = logging.getLogger(__name__, "dell-nfv-tempest-plugin")
 
-
-numa_metadata_flavor = ['aggregate_instance_extra_specs:pinned=True', 'hw:cpu_policy=dedicated', 'hw:cpu_thread_policy=require']
 
 class TestNumaFlavorCreation(base.BaseDellNFVTempestTestCase):
 
@@ -15,8 +15,8 @@ class TestNumaFlavorCreation(base.BaseDellNFVTempestTestCase):
     def resource_setup(self):
         super(TestNumaFlavorCreation, self).resource_setup()
 	self.openstack = api.OpenStackAPI()
-	self.openstack.resource_setup()
 	self.flavor_name = None
+	self.flavor_metadata = CONF.numa.flavor_metadata
 
  
     @test.attr(type="dell_nfv")
@@ -38,7 +38,7 @@ class TestNumaFlavorCreation(base.BaseDellNFVTempestTestCase):
 
 
     def add_metadata_to_flavor(self):
-	ret_val = self.openstack.flavor_set_properties(self.flavor_name, numa_metadata_flavor) 
+	ret_val = self.openstack.flavor_set_properties(self.flavor_name, self.flavor_metadata) 
 	self.assertEmpty(ret_val)
 	LOG.info("NUMA Metadata added to flavor %s", self.flavor_name)
 

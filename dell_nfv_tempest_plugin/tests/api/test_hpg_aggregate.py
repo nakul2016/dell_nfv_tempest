@@ -10,21 +10,21 @@ CONF = config.CONF
 LOG = logging.getLogger(__name__, "dell-nfv-tempest-plugin")
 
 
-class TestNumaAggregate(base.BaseDellNFVTempestTestCase):
+class TestHpgAggregate(base.BaseDellNFVTempestTestCase):
 
     @classmethod
     def resource_setup(self):
-	super(TestNumaAggregate, self).resource_setup()
+	super(TestHpgAggregate, self).resource_setup()
 	self.api_helper = api.APIHelper()
 	self.aggr_name = None
 	self.hosts = None
 	self.metadata = None
-	self.aggr_metadata = CONF.numa.aggregate_metadata
+	self.aggr_metadata = CONF.hugepage.aggregate_metadata
 
 
     @test.attr(type='dell_nfv')
-    def test_numa_aggregate(self):
-	LOG.info("BEGIN: test_verify_numa_aggregate")
+    def test_hpg_aggregate(self):
+	LOG.info("BEGIN: test_verify_hugepage_aggregate")
 	aggr_list = self.api_helper.get_aggregate_list()
 	self.assertNotEmpty(aggr_list)
 
@@ -37,13 +37,13 @@ class TestNumaAggregate(base.BaseDellNFVTempestTestCase):
 	self.assertNotEmpty(self.hosts)
 	self.assertNotEmpty(self.metadata)
 
-	LOG.info("NUMA Aggregate Found - '%s'", self.aggr_name) 
-	LOG.info("Hosts present in NUMA aggregate - '%s' are %s", self.aggr_name, self.hosts)
-	LOG.info("Metadata present in NUMA aggregate - '%s' are %s", self.aggr_name, self.metadata)
-	LOG.info("END: test_verify_numa_aggregate")
+	LOG.info("Hugepage Aggregate Found - '%s'", self.aggr_name) 
+	LOG.info("Hosts present in Hugepage aggregate - '%s' are %s", self.aggr_name, self.hosts)
+	LOG.info("Metadata present in Hugepage aggregate - '%s' are %s", self.aggr_name, self.metadata)
+	LOG.info("END: test_verify_hugepage_aggregate")
 
  
     @classmethod
     def resource_cleanup(self):
-        super(TestNumaAggregate, self).resource_cleanup()
+        super(TestHpgAggregate, self).resource_cleanup()
 	self.api_helper = None
